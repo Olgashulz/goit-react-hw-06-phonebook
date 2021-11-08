@@ -1,14 +1,21 @@
 import { useState } from "react";
-import PropTypes from 'prop-types';
 import styles from './Form.module.css';
+import { addContact } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { visibleContacts } from '../../redux/selectors'
+
+import shortid from 'shortid';
+
 
 
 
 export default function Form(props) {
-
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
     const [disabled, setDisabled] = useState(false);
+
+    const contacts = useSelector(visibleContacts)
+    const dispatch = useDispatch();
 
     const handleInputChange = event => {
         console.log(event.currentTarget.value);
@@ -31,7 +38,14 @@ export default function Form(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        props.addNewContact(name, number);
+
+        const addNewContact = {
+            id: shortid.generate(),
+            name: name,
+            number: number
+        }
+
+        dispatch(addContact(addNewContact));
         resetForm();
     }
 
@@ -41,8 +55,7 @@ export default function Form(props) {
     }
 
     const findNameInContact = (event) => {
-
-        if (props.contacts.find((contact) =>
+        if (contacts.find((contact) =>
             contact.name.toLowerCase() === event.currentTarget.value.toLowerCase()
         )) {
             setDisabled(true)
@@ -92,7 +105,4 @@ export default function Form(props) {
     )
 }
 
-Form.propTypes = {
-    contacts: PropTypes.array.isRequired,
-    addNewContact: PropTypes.func.isRequired
-}
+

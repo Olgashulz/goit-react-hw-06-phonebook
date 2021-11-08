@@ -1,19 +1,22 @@
 import React from "react";
-import PropTypes from 'prop-types';
 import styles from './Filter.module.css';
+import { useSelector, useDispatch } from "react-redux";
+import { filterContact, resetFilter } from "../../redux/actions";
 
+const Filter = () => {
+    const filter = useSelector(state => state.filter)
+    const dispatch = useDispatch();
 
-const Filter = ({ value, onChange, resetFiler }) => {
     return (
         <label className={styles.findLabel}>
             Find contact by name
             <input
                 type="text"
                 name="name"
-                value={value}
-                onChange={onChange}
+                value={filter}
+                onChange={event => dispatch(filterContact(event.target.value))}
                 className={styles.inputForm}
-                onBlur={resetFiler}
+                onBlur={() => dispatch(resetFilter())}
             />
         </label>
     )
@@ -21,11 +24,37 @@ const Filter = ({ value, onChange, resetFiler }) => {
 
 export default Filter;
 
-Filter.protoTypes = {
-    value: PropTypes.string.isRequired,
-    onChange: PropTypes.func,
-    resetFiler: PropTypes.func
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// import React from "react";
+// import styles from './Filter.module.css';
+// import { useSelector, useDispatch } from "react-redux";
+// import { filterContact, resetFilter } from "../../redux/actions";
 
-}
+// const Filter = () => {
+//     const value = useSelector(state => state.filter)
+//     // const contacts = useSelector(state => state.contacts)
+//     const dispatch = useDispatch();
+
+//     const resetFiler = () => {
+//         console.log(value)
+//     }
+
+//     return (
+//         <label className={styles.findLabel}>
+//             Find contact by name
+//             <input
+//                 type="text"
+//                 name="name"
+//                 value={value}
+//                 onChange={event => dispatch(filterContact(event.target.value))}
+//                 className={styles.inputForm}
+//                 onBlur={resetFiler()}
+//             />
+//         </label>
+//     )
+// }
+
+// export default Filter;
+
 
 
