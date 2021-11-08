@@ -18,7 +18,7 @@ export default function Form(props) {
     const dispatch = useDispatch();
 
     const handleInputChange = event => {
-        console.log(event.currentTarget.value);
+        // console.log(event.currentTarget.value);
         const { name, value } = event.currentTarget;
         setDisabled(false);
 
